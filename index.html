@@ -1,0 +1,226 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secure File - Precious Jennifer</title><style>
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:linear-gradient(135deg,#ffd6e7,#fff8fb);
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+overflow-x:hidden;
+}
+
+.card{
+width:92%;
+max-width:700px;
+background:rgba(255,255,255,0.9);
+backdrop-filter:blur(10px);
+padding:30px;
+border-radius:18px;
+box-shadow:0 10px 40px rgba(0,0,0,0.1);
+text-align:center;
+animation:fadeIn 0.6s ease;
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(10px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+h1{color:#ff4f87}
+
+button{
+padding:12px 18px;
+border:none;
+border-radius:10px;
+margin:8px;
+cursor:pointer;
+font-size:15px;
+transition:0.3s;
+}
+
+.primary{background:#ff4f87;color:white;}
+.secondary{background:#eee;}
+
+button:hover{transform:scale(1.05)}
+
+.hidden{display:none;}
+
+.calendar{
+display:grid;
+grid-template-columns:repeat(7,1fr);
+gap:5px;
+margin-top:15px;
+}
+
+.day{
+padding:10px;
+background:#fff;
+border-radius:8px;
+cursor:pointer;
+transition:0.2s;
+}
+
+.day:hover{background:#ffe1ec}
+
+.selected{background:#ff4f87;color:white;}
+
+.small{font-size:14px;color:#666}
+
+.progress{
+height:8px;
+background:#eee;
+border-radius:10px;
+overflow:hidden;
+margin-top:10px;
+}
+
+.bar{
+height:100%;
+width:0%;
+background:#ff4f87;
+transition:0.3s;
+}
+
+</style></head><body><div class="card"><!-- PAGE 1 --><div id="p1">
+<h1>🔒 Access Restricted</h1>
+<p>Hello, <b>Precious Jennifer</b>.</p>
+<p>A file concerning you has been located.</p>
+<button class="primary" onclick="go(2)">Open File</button>
+</div><!-- PAGE 2 --><div id="p2" class="hidden">
+<h1>📁 Subject Analysis</h1>
+<p>Scanning Precious Jennifer...</p>
+<p>✔ Story potential detected</p>
+<p>✔ Humor detected</p>
+<p>✔ High conversation compatibility</p>
+<button class="primary" onclick="go(3)">Continue</button>
+</div><!-- PAGE 3 --><div id="p3" class="hidden">
+<h1>📁 Evidence Collection</h1><p>When someone says "I have a story", your reaction?</p>
+<button onclick="nextQ(1)">Tell me now</button>
+<button onclick="nextQ(1)">Depends</button>
+<button onclick="nextQ(1)">I’m listening</button><p id="q2" class="hidden">Preferred activity?</p>
+<button id="a2" class="hidden" onclick="nextQ(2)">Ice cream</button>
+<button id="b2" class="hidden" onclick="nextQ(2)">Walk</button>
+<button id="c2" class="hidden" onclick="nextQ(2)">Talking</button><p id="q3" class="hidden">Memory check complete.</p>
+<button id="done" class="hidden primary" onclick="go(4)">Continue</button></div><!-- PAGE 4 --><div id="p4" class="hidden">
+<h1>📊 Compatibility Analysis</h1><p id="scan">Analyzing...</p>
+<div class="progress"><div class="bar" id="bar"></div></div><button class="primary hidden" id="cont4" onclick="go(5)">View Result</button>
+
+</div><!-- PAGE 5 --><div id="p5" class="hidden">
+<h1>📅 Availability Detector</h1>
+<p>Select a day, Precious Jennifer:</p><div id="calendar" class="calendar"></div><p id="selectedDate"></p><button class="primary hidden" id="toTime" onclick="go(6)">Continue</button>
+
+</div><!-- PAGE 6 --><div id="p6" class="hidden">
+<h1>⏰ Energy Check</h1><p>When is best for you?</p><button onclick="pickTime('Morning')">Morning</button>
+<button onclick="pickTime('Afternoon')">Afternoon</button>
+<button onclick="pickTime('Evening')">Evening</button>
+
+<p id="timePick"></p><button class="primary hidden" id="finalBtn" onclick="go(7)">Finish</button>
+
+</div><!-- PAGE 7 --><div id="p7" class="hidden">
+<h1>📋 Final Result</h1><p>After reviewing everything, Precious Jennifer:</p><p><b>A friendly meeting is highly recommended.</b></p><p id="finalData"></p><a id="wa" target="_blank">
+<button class="primary">💖 Sounds Good</button>
+</a><button class="secondary" onclick="alert('Take your time, Precious Jennifer 🙂')">Not Sure Yet</button>
+
+</div></div><script>
+
+let selectedDate="";
+let selectedTime="";
+
+function go(n){
+for(let i=1;i<=7;i++){
+document.getElementById("p"+i).classList.add("hidden");
+}
+document.getElementById("p"+n).classList.remove("hidden");
+
+if(n==4) startScan();
+if(n==5) buildCalendar();
+if(n==7) finish();
+}
+
+function nextQ(q){
+if(q==1){
+document.getElementById("q2").classList.remove("hidden");
+document.getElementById("a2").classList.remove("hidden");
+document.getElementById("b2").classList.remove("hidden");
+document.getElementById("c2").classList.remove("hidden");
+}
+if(q==2){
+document.getElementById("q3").classList.remove("hidden");
+document.getElementById("done").classList.remove("hidden");
+}
+}
+
+function startScan(){
+let bar=document.getElementById("bar");
+let scan=document.getElementById("scan");
+let c=document.getElementById("cont4");
+
+let i=0;
+let msgs=[
+"Analyzing responses...",
+"Checking compatibility...",
+"Detecting humor...",
+"Evaluating Precious Jennifer...",
+"Finalizing..."
+];
+
+let t=setInterval(()=>{
+bar.style.width=i+"%";
+scan.innerText=msgs[Math.floor(i/20)]||"Processing...";
+i+=5;
+
+if(i>100){
+clearInterval(t);
+scan.innerText="Analysis complete.";
+c.classList.remove("hidden");
+}
+},120);
+}
+
+function buildCalendar(){
+let cal=document.getElementById("calendar");
+cal.innerHTML="";
+
+let now=new Date();
+let days=30;
+
+for(let i=1;i<=days;i++){
+let d=document.createElement("div");
+d.className="day";
+d.innerText=i;
+
+d.onclick=()=>{
+document.querySelectorAll(".day").forEach(x=>x.classList.remove("selected"));
+d.classList.add("selected");
+selectedDate="Day "+i+" (this month)";
+document.getElementById("selectedDate").innerText="Selected: "+selectedDate;
+document.getElementById("toTime").classList.remove("hidden");
+};
+
+cal.appendChild(d);
+}
+}
+
+function pickTime(t){
+selectedTime=t;
+document.getElementById("timePick").innerText="Selected: "+t;
+document.getElementById("finalBtn").classList.remove("hidden");
+}
+
+function finish(){
+document.getElementById("finalData").innerText=
+"Date: "+selectedDate+" | Time: "+selectedTime;
+
+let link="https://wa.me/254724406106?text=" +
+encodeURIComponent("Hello 🙂 I completed the file.");
+
+document.getElementById("wa").href=link;
+}
+
+</script></body>
+  </html>
